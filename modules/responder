@@ -6,10 +6,8 @@
 VERSION="2.5"
 DESCRIPTION="Responder - LLMNR, NBT-NS and MDNS poisoner"
 CONF=/tmp/responder.form
-REPO="https://github.com/lgandx/Responder.git"
+REPO="git://github.com/lgandx/Responder.git"
 AUTHOR=IMcPwn
-
-export PATH="$PATH":/sd/usr/bin
 
 : ${DIALOG_OK=0}
 : ${DIALOG_CANCEL=1}
@@ -24,13 +22,16 @@ function install {
     fi
     check_internet
     echo "\n Trying to install packages\n"
-    opkg update && opkg -d sd install git python3 python3-openssl python3-sqlite3 openssl-utils || exit 1
+    opkg update && opkg -d sd install git python3 python3-openssl python3-sqlite3 python3-netifaces openssl-util || exit 1
+    ln -s /sd/usr/share/git-core /usr/share/git-core
+    ln -s /sd/usr/libexec/git-core usr/libexec/git-core
+    ln -s /sd/etc/ssl/openssl.cnf /etc/ssl/openssl.cnf
     echo "\n Cloning Responder onto sd"
     git clone "$REPO" /sd/Responder || exit 1
     echo "\n configuring the Responder \n"
     if [[ -d /sd/Responder ]]; then
         ln -s /sd/Responder /etc/turtle/Responder
-        cd /sd/Responder && ./cert/gen-self-signed-cert.sh
+        cd /sd/Responder && ./certs/gen-self-signed-cert.sh
         cd -
     else
         echo "ERROR"
@@ -127,7 +128,7 @@ function start {
       echo "Required Responder files not found. Downloading..."
       check_internet
       rm -rf /etc/turtle/Responder
-      git clone git://github.com/lgandx/Responder /etc/turtle/Responder -q
+      install
     fi
     
     case $responder_mode in
@@ -169,7 +170,8 @@ function start {
             ln -s /sshfs/Responder/logs /etc/turtle/Responder/logs
           fi
           
-          echo "python /etc/turtle/Responder/Responder.py $mode -I $responder_interface" | at now
+          /etc/init.d/dnsmasq stop
+          python3 /etc/turtle/Responder/Responder.py $mode -I $responder_interface &
           echo -e "Responder started in mode $responder_mode against interface $responder_interface\nand logs are being saved to /sshfs/Responder"
           echo "Logs can be viewed at Configure > log > View log"
         else 
@@ -194,7 +196,8 @@ function start {
           ln -s /tmp/Responder/logs /etc/turtle/Responder/logs
         fi
         
-        echo "python /etc/turtle/Responder/Responder.py $mode -I $responder_interface &" | at now
+        /etc/init.d/dnsmasq stop
+        python3 /etc/turtle/Responder/Responder.py $mode -I $responder_interface &
         echo -e "Responder started in mode $responder_mode against interface $responder_interface\nand logs are being saved to /tmp/Responder"
         echo "Responder started with pid"
         pgrep -f Responder.py
