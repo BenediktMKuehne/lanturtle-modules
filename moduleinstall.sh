@@ -1,6 +1,6 @@
 #!/bin/bash
-ORIGINAL_REPO="https://github.com/hak5/lanturtle-modules/tree/gh-pages/modules"
-REPO="https://github.com/BenediktMKuehne/lanturtle-modules/tree/gh-pages/modules"
+ORIGINAL_REPO="https://raw.githubusercontent.com/hak5/lanturtle-modules/tree/gh-pages/modules"
+REPO="https://raw.githubusercontent.com/BenediktMKuehne/lanturtle-modules/tree/gh-pages/modules"
    
 wget "$ORIGINAL_REPO"/autossh -O /etc/turtle/modules/autossh --no-check-certificate
 wget "$ORIGINAL_REPO"/clomac -O /etc/turtle/modules/clomac --no-check-certificate
