@@ -9,6 +9,8 @@ CONF=/tmp/responder.form
 REPO="https://github.com/lgandx/Responder.git"
 AUTHOR=IMcPwn
 
+export PATH="$PATH":/sd/usr/bin
+
 : ${DIALOG_OK=0}
 : ${DIALOG_CANCEL=1}
 : ${DIALOG_HELP=2}
