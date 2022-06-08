@@ -170,7 +170,7 @@ function start {
             ln -s /sshfs/Responder/logs /etc/turtle/Responder/logs
           fi
           
-          /etc/init.d/dnsmasq stop
+          #/etc/init.d/dnsmasq stop
           python3 /etc/turtle/Responder/Responder.py $mode -I $responder_interface &
           echo -e "Responder started in mode $responder_mode against interface $responder_interface\nand logs are being saved to /sshfs/Responder"
           echo "Logs can be viewed at Configure > log > View log"
@@ -196,7 +196,7 @@ function start {
           ln -s /tmp/Responder/logs /etc/turtle/Responder/logs
         fi
         
-        /etc/init.d/dnsmasq stop
+        #/etc/init.d/dnsmasq stop
         python3 /etc/turtle/Responder/Responder.py $mode -I $responder_interface &
         echo -e "Responder started in mode $responder_mode against interface $responder_interface\nand logs are being saved to /tmp/Responder"
         echo "Responder started with pid"
