@@ -24,7 +24,7 @@ function install {
     fi
     check_internet
     echo "\n Trying to install packages\n"
-    opkg update && opkg -d /sd install git python3 python3-openssl python3-sqlite3 openssl-utils || exit 1
+    opkg update && opkg -d sd install git python3 python3-openssl python3-sqlite3 openssl-utils || exit 1
     echo "\n Cloning Responder onto sd"
     git clone "$REPO" /sd/Responder || exit 1
     echo "\n configuring the Responder \n"
