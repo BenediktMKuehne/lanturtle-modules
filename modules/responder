@@ -411,8 +411,7 @@ dialog \
 }
 
 function configure {
-if [[ ! -s /etc/config/responder ]];
-then
+if [[ ! -s /etc/config/responder ]]; then
   touch /etc/config/responder
 fi
 
