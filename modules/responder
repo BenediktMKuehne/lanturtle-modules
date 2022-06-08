@@ -6,6 +6,7 @@
 VERSION="2.5"
 DESCRIPTION="Responder - LLMNR, NBT-NS and MDNS poisoner"
 CONF=/tmp/responder.form
+REPO="https://github.com/lgandx/Responder.git"
 AUTHOR=IMcPwn
 
 : ${DIALOG_OK=0}
@@ -13,6 +14,28 @@ AUTHOR=IMcPwn
 : ${DIALOG_HELP=2}
 : ${DIALOG_EXTRA=3}
 : ${DIALOG_ESC=255}
+
+function install {
+    if [[ -d /sd/Responder ]]; then
+        echo "Responder already installed"
+        exit 1
+    fi
+    check_internet
+    echo "\n Trying to install packages\n"
+    opkg update && opkg install git python3 python3-openssl python3-sqlite3 openssl-utils || exit 1
+    echo "\n Cloning Responder onto sd"
+    git clone "$REPO" /sd/Responder || exit 1
+    echo "\n configuring the Responder \n"
+    if [[ -d /sd/Responder]]; then
+        ln -s /sd/Responder /etc/turtle/Responder
+        cd /sd/Responder && ./cert/gen-self-signed-cert.sh
+        cd -
+    else
+        echo "ERROR"
+        exit 1
+    fi  
+
+}
 
 function enable_iptables {
   iptables -t filter -I INPUT 1 -i eth1 -j ACCEPT

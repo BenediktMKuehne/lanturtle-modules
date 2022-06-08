@@ -25,50 +25,50 @@ echo "$(tput sgr0)"
 echo -n "Turtle Netmask [255.255.255.0]: "
 read turtlenetmask
 if [[ $turtlenetmask == '' ]]; then 
-turtlenetmask=255.255.255.0 #Default netmask for /24 network
+    turtlenetmask=255.255.255.0 #Default netmask for /24 network
 fi
 
 echo -n "Turtle Network [172.16.84.0/24]: "
 read turtlenet
 if [[ $turtlenet == '' ]]; then 
-turtlenet=172.16.84.0/24 # Turtle network. Default is 172.16.84.0/24
+    turtlenet=172.16.84.0/24 # Turtle network. Default is 172.16.84.0/24
 fi
 
 echo -n "Interface between PC and Turtle [eth1]: "
 read turtlelan
 if [[ $turtlelan == '' ]]; then 
-turtlelan=eth1 # Interface of ethernet cable directly connected to Turtle
+    turtlelan=eth1 # Interface of ethernet cable directly connected to Turtle
 fi
 
 echo -n "Interface between PC and Internet [wlan0]: "
 read turtlewan
 if [[ $turtlewan == '' ]]; then 
-turtlewan=wlan0 #i.e. wlan0 for wifi, ppp0 for 3g modem/dialup, eth0 for lan
+    turtlewan=wlan0 #i.e. wlan0 for wifi, ppp0 for 3g modem/dialup, eth0 for lan
 fi
 
 tempturtlegw=`netstat -nr | awk 'BEGIN {while ($3!="0.0.0.0") getline; print $2}'` #Usually correct by default
 echo -n "Internet Gateway [$tempturtlegw]: "
 read turtlegw
 if [[ $turtlegw == '' ]]; then 
-turtlegw=`netstat -nr | awk 'BEGIN {while ($3!="0.0.0.0") getline; print $2}'` #Usually correct by default
+    turtlegw=`netstat -nr | awk 'BEGIN {while ($3!="0.0.0.0") getline; print $2}'` #Usually correct by default
 fi
 
 echo -n "IP Address of Host PC [172.16.84.42]: "
 read turtlehostip
 if [[ $turtlehostip == '' ]]; then 
-turtlehostip=172.16.84.42 #IP Address of host computer
+    turtlehostip=172.16.84.42 #IP Address of host computer
 fi
 
 echo -n "IP Address of Turtle [172.16.84.1]: "
 read turtleip
 if [[ $turtleip == '' ]]; then 
-turtleip=172.16.84.1 #Thanks Douglas Adams
+    turtleip=172.16.84.1 #Thanks Douglas Adams
 fi
 
 echo -n "Prefered DNS Server [8.8.8.8]: "
 read turtledns
 if [[ $turtledns == '' ]]; then
-turtledns=8.8.8.8 # Default DNS server
+    turtledns=8.8.8.8 # Default DNS server
 fi
 
 echo ""
@@ -111,12 +111,12 @@ sed -i s/$turtleip/$turtledns/g /etc/resolv.conf
 #special thanks to Foxtrot for this part
 ping -i 1 -c1 $turtleip
 if [ $? -eq 0 ]; then
-echo "ICS configuration successful."
-echo "Configuring LAN Turtle."
-echo "Enter password if prompted"
-ssh root@$turtleip "echo \"nameserver $turtledns\" >> /etc/resolv.conf && route add default gw $turtlehostip"
+    echo "ICS configuration successful."
+    echo "Configuring LAN Turtle."
+    echo "Enter password if prompted"
+    ssh root@$turtleip "echo \"nameserver $turtledns\" >> /etc/resolv.conf && route add default gw $turtlehostip"
 else
-echo "Could not connect to the LAN Turtle!"
+    echo "Could not connect to the LAN Turtle!"
 fi
 
 #fix routing on host machine

