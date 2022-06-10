@@ -141,6 +141,7 @@ function start {
       7) mode="-v";;
       8) mode="-r -F";;
       9) mode="-r -F -f";;
+      10) mode="-Pv";;
       *)
         echo "Responder configuration not valid."
         echo "Please re-configure then try again."
@@ -338,6 +339,7 @@ function mode {
     7 "Enable verbose" off\
     8 "Options 4 and 5" off\
     9 "Options 4, 5, and 6" off\
+    10 "P and verbose" on\
   2>$CONF
   return=$?
   case $return in
