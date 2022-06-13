@@ -306,7 +306,7 @@ The log files can be saved to SSHFS or tmp.\n" 16 60 3\
       tmp)
         dialog --title "/tmp/Responder/logs/Responder-Session.log" --clear --tailbox "/tmp/Responder/logs/Responder-Session.log" 18 72
         ;;
-      tmp)
+      sd)
         dialog --title "/sd/Responder/logs/Responder-Session.log" --clear --tailbox "/sd/Responder/logs/Responder-Session.log" 18 72
         ;;
       *)
