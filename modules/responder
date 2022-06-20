@@ -8,6 +8,10 @@ DESCRIPTION="Responder - LLMNR, NBT-NS and MDNS poisoner"
 CONF=/tmp/responder.form
 REPO="git://github.com/lgandx/Responder.git"
 AUTHOR=IMcPwn
+# TODO add path
+export PATH=$PATH:/sd/usr/bin
+export GIT_EXEC_PATH=/usr/libexec/git-core
+export LD_LIBRARY_PATH=/sd/usr/lib
 
 : ${DIALOG_OK=0}
 : ${DIALOG_CANCEL=1}
@@ -214,14 +218,14 @@ function start {
           rm -f /etc/turtle/Responder/Responder.db
         fi
         
-        if [[ $(readlink /etc/turtle/Responder/logs) != "/sd/Responder/logs" || ! -d /tmp/Responder/logs ]]; then
+        if [[ $(readlink /etc/turtle/Responder/logs) != "/sd/Responder/logs" || ! -d /sd/Responder/logs ]]; then
           rm -rf /etc/turtle/Responder/logs
-          mkdir -p /tmp/Responder/logs
-          ln -s /tmp/Responder/logs /etc/turtle/Responder/logs
+          mkdir -p /sd/Responder/logs
+          ln -s /sd/Responder/logs /etc/turtle/Responder/logs
         fi
         
         #/etc/init.d/dnsmasq stop
-        python3 /etc/turtle/Responder/Responder.py $mode -I $responder_interface &
+        /sd/usr/bin/python3 /etc/turtle/Responder/Responder.py $mode -I $responder_interface &
         echo -e "Responder started in mode $responder_mode against interface $responder_interface\nand logs are being saved to /tmp/Responder"
         echo "Responder started with pid"
         pgrep -f Responder.py

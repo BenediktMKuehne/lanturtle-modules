@@ -7,7 +7,7 @@ Hak5-LAN Turtle Repository
 2. get module installer
     `wget https://raw.githubusercontent.com/BenediktMKuehne/lanturtle-modules/master/moduleinstall.sh -O /etc/turtle/moduleinstall.sh --no-check-certificate`
 
-
+3. activate `/etc/init.d/turtle` 
 
 ---------------------------------------------------
 `wget https://raw.githubusercontent.com/BenediktMKuehne/lanturtle-modules/master/modules/responder  -O /etc/turtle/modules/responder --no-check-certificate`
